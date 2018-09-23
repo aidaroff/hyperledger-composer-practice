@@ -1,0 +1,36 @@
+{
+  "engines": {
+    "composer": "^0.20.1"
+  },
+  "name": "marketplace",
+  "version": "0.0.1",
+  "description": "simple marketplace app (https://github.com/ruslan-kurkebayev/blockchain-hc-hw)",
+  "scripts": {
+    "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/marketplace.bna",
+    "pretest": "npm run lint",
+    "lint": "eslint .",
+    "test": "nyc mocha -t 0 test/*.js && cucumber-js"
+  },
+  "keywords": [
+    "composer",
+    "composer-network"
+  ],
+  "author": "Alibek Aidarov",
+  "email": "aydarov.alibek@gmail.com",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "composer-admin": "^0.20.1",
+    "composer-cli": "^0.20.1",
+    "composer-client": "^0.20.1",
+    "composer-common": "^0.20.1",
+    "composer-connector-embedded": "^0.20.1",
+    "composer-cucumber-steps": "^0.20.1",
+    "chai": "latest",
+    "chai-as-promised": "latest",
+    "cucumber": "^2.2.0",
+    "eslint": "latest",
+    "nyc": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}

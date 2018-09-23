@@ -1,0 +1,25 @@
+Business Network Model:
+
+1. Participants: Buyers, Sellers
+
+2. Assets: Consumer goods, i.e. products
+
+3. Transactions: (? marked are transactions that may not be transactions per se,
+                  i.e. local actions -- not sure yet)
+    a. Seller:
+        i. Can see current balance on their account (?)
+        ii. Can see list of sold goods (?)
+        iii. Can see list of currently selling goods (?)
+        iiii. Can add new goods to their inventory
+        iiiii. Can remove existing goods from their inventory
+
+    b. Buyer:
+        i. Can see the current balance of their account (?)
+        ii. Can see list of all current selling goods from different buyers (?)
+        iii. Can book (block) the product they wish to buy
+        iiii. Can send a buy request to the bank (withdraw)
+
+    c. Bank:
+        i. Can check buyers'/sellers' current balance on their account (?)
+        ii. Can move funds from buyers' accounts to sellers' accounts
+        iii. Can update product's owner

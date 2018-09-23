@@ -1,0 +1,26 @@
+query selectProducts {
+  description: "Select all products"
+  statement:
+      SELECT marketplace.Product
+}
+
+query selectProductsByOwner {
+  description: "Select products by owner"
+  statement:
+      SELECT marketplace.Product
+        WHERE ( owner == _$owner )
+}
+
+query selectProductsBySeller {
+  description: "Select products by seller"
+  statement:
+      SELECT marketplace.Product
+        WHERE ( seller == _$seller )
+}
+
+query selectProductsBySellerAndStatus {
+  description: "Select products by seller and status"
+  statement:
+      SELECT marketplace.Product
+        WHERE ( seller == _$seller AND status == _$status )
+}
