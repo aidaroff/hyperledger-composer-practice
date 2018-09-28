@@ -37,16 +37,29 @@ participant Seller extends Person {
     --> Product[] listedProducts
 }
 
+participant Bank identified by name {
+    o String name
+    --> BankAccount[] accounts
+}
+
 asset Product identified by productId {
   o String productId
   --> Person owner
   --> Person seller
   o String productName
+  o Double price
   o String status
+}
+
+asset BankAccount identified by accountId {
+  o String accountId
+  --> Person owner
+  o Double balance
 }
 
 transaction Trade {
   --> Product product
   --> Seller seller
   --> Buyer buyer
+  --> Bank bank
 }
