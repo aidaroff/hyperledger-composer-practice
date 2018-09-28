@@ -18,8 +18,8 @@
 
 namespace marketplace
 
-abstract participant Person identified by PersonId {
-    o String PersonId
+abstract participant Person identified by personId {
+    o String personId
     o String firstName
     o String lastName
 }

@@ -27,10 +27,22 @@ chai.should();
 chai.use(require('chai-as-promised'));
 
 const namespace = 'marketplace';
-const assetType = 'SampleAsset';
-const assetNS = namespace + '.' + assetType;
-const participantType = 'SampleParticipant';
-const participantNS = namespace + '.' + participantType;
+// participants
+const BUYER = 'Buyer';
+const SELLER = 'Seller';
+const BANK = 'Bank';
+// assets
+const PRODUCT = 'Product';
+const BANKACCOUNT = 'BankAccount'
+const assets = {
+    'Product': namespace + '.' + PRODUCT,
+    'BankAccount': namespace + '.' + BANKACCOUNT,
+};
+const participants = {
+    'Buyer': namespace + '.' + BUYER,
+    'Seller': namespace + '.' + SELLER,
+    'Bank': namespace + '.' + BANK
+};
 
 describe('#' + namespace, () => {
     // In-memory card store for testing so cards are not persisted to the file system
@@ -129,32 +141,47 @@ describe('#' + namespace, () => {
 
         const participantRegistry = await businessNetworkConnection.getParticipantRegistry(participantNS);
         // Create the participants.
-        const alice = factory.newResource(namespace, participantType, 'alice@email.com');
+        const alice = factory.newResource(namespace, BUYER);
         alice.firstName = 'Alice';
         alice.lastName = 'A';
+        alice.personId = 'alice';
 
-        const bob = factory.newResource(namespace, participantType, 'bob@email.com');
+        const bob = factory.newResource(namespace, SELLER);
         bob.firstName = 'Bob';
         bob.lastName = 'B';
+        bob.personId = 'bob';
+
+        const bank = factory.newResource(namespace, BANK);
+        bank.name = 'bank';
+        bank.accounts = [];
+
+        const productRegistry = await businessNetworkConnection.getAssetRegistry(assets[PRODUCT]);
+        // Create the assets.
+        const product1 = factory.newResource(namespace, PRODUCT);
+        product1.owner = factory.newRelationship(namespace, SELLER, 'bob');
+        product1.seller = factory.newRelationship(namespace, SELLER, 'bob');
+        product1.status = 'listed';
+        product1.productName = 'product name';
+        product1.productId = 'product1';
+        product1.price = 500;
+
+        const bankAccountRegistry = await businessNetworkConnection.getAssetRegistry(assets[BANKACCOUNT]);
+        const aliceBankAccount = factory.newResource(namespace, BANKACCOUNT);
+        aliceBankAccount.owner = factory.newRelationship(namespace, BUYER, 'alice');
+        aliceBankAccount.balance = 1000;
+
+        const bobBankAccount = factory.newResource(namespace, BANKACCOUNT);
+        bobBankAccount.owner = factory.newRelationship(namespace, BUYER, 'bob');
+        bobBankAccount.balance = 0;
 
         participantRegistry.addAll([alice, bob]);
-
-        const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
-        // Create the assets.
-        const asset1 = factory.newResource(namespace, assetType, '1');
-        asset1.owner = factory.newRelationship(namespace, participantType, 'alice@email.com');
-        asset1.value = '10';
-
-        const asset2 = factory.newResource(namespace, assetType, '2');
-        asset2.owner = factory.newRelationship(namespace, participantType, 'bob@email.com');
-        asset2.value = '20';
-
-        assetRegistry.addAll([asset1, asset2]);
+        productRegistry.addAll([product1]);
+        bnakAccountRegistry.addAll([aliceBankAccount, bobBankAccount])
 
         // Issue the identities.
-        let identity = await businessNetworkConnection.issueIdentity(participantNS + '#alice@email.com', 'alice1');
+        let identity = await businessNetworkConnection.issueIdentity(participants[BUYER] + '#alice', 'alice1');
         await importCardForIdentity(aliceCardName, identity);
-        identity = await businessNetworkConnection.issueIdentity(participantNS + '#bob@email.com', 'bob1');
+        identity = await businessNetworkConnection.issueIdentity(participants[SELLER] + '#bob', 'bob1');
         await importCardForIdentity(bobCardName, identity);
     });
 
@@ -182,7 +209,7 @@ describe('#' + namespace, () => {
         // Validate the assets.
         assets.should.have.lengthOf(2);
         const asset1 = assets[0];
-        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#alice@email.com');
+        asset1.owner.getFullyQualifiedIdentifier().should.equal(participants[] + '#alice@email.com');
         asset1.value.should.equal('10');
         const asset2 = assets[1];
         asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#bob@email.com');
