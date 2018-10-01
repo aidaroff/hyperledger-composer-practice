@@ -3,7 +3,7 @@
     "composer": "^0.20.1"
   },
   "name": "marketplace",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "simple marketplace app (https://github.com/ruslan-kurkebayev/blockchain-hc-hw)",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/marketplace.bna",
@@ -19,18 +19,21 @@
   "email": "aydarov.alibek@gmail.com",
   "license": "Apache-2.0",
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "composer-admin": "^0.20.1",
     "composer-cli": "^0.20.1",
     "composer-client": "^0.20.1",
     "composer-common": "^0.20.1",
     "composer-connector-embedded": "^0.20.1",
     "composer-cucumber-steps": "^0.20.1",
-    "chai": "latest",
-    "chai-as-promised": "latest",
-    "cucumber": "^2.2.0",
-    "eslint": "latest",
-    "nyc": "latest",
+    "cucumber": "^2.3.1",
+    "eslint": "^5.6.1",
     "mkdirp": "latest",
-    "mocha": "latest"
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1"
+  },
+  "dependencies": {
+    "path": "^0.12.7"
   }
 }
